@@ -62,26 +62,6 @@ public class EthInt extends Number implements EthValue, EthNumericValue<EthInt>,
     }
 
     /**
-     * Increments this <code>ethereum int</code> value by one.
-     *
-     * @return a new instance of <code>ethereum int</code> with the incremented value
-     */
-    @NotNull
-    public EthInt inc() {
-        return plus(1);
-    }
-
-    /**
-     * Decrements this <code>ethereum int</code> value by one.
-     *
-     * @return a new instance of <code>ethereum int</code> with the decremented value
-     */
-    @NotNull
-    public EthInt dec() {
-        return minus(1);
-    }
-
-    /**
      * Converts this value to an <code>int</code>.
      *
      * @return the value of this as an <code>int</code>

@@ -139,6 +139,24 @@ public interface EthNumericValue<T extends EthValue> extends EthValue, Comparabl
     }
 
     /**
+     * Increments this <code>ethereum int</code> value by one.
+     *
+     * @return a new instance of <code>ethereum int</code> with the incremented value
+     */
+    default T inc() {
+        return plus(1);
+    }
+
+    /**
+     * Decrements this <code>ethereum int</code> value by one.
+     *
+     * @return a new instance of <code>ethereum int</code> with the decremented value
+     */
+    default T dec() {
+        return minus(1);
+    }
+
+    /**
      * Returns the value of this numeric value, throwing an exception if the value overflows a {@code long}.
      *
      * @return the argument as a {@code long}.
