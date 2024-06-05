@@ -32,7 +32,6 @@ public final class Hex {
             val second = hex.charAt(1);
             if (first == '0' && (second == 'x' || second == 'X')) {
                 offset = 2;
-                length -= 2;
             }
         }
         return FastHex.decode(hex, offset, length);
