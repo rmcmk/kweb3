@@ -1,6 +1,6 @@
 package dev.klepto.kweb3.core.util;
 
-import com.esaulpaugh.headlong.util.FastHex;
+import io.ethers.core.FastHex;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,8 +12,8 @@ import java.math.BigInteger;
  * @author <a href="http://github.com/klepto">Augustinas R.</a>
  */
 public final class Hex {
-    private static final String ZERO_WITH_PREFIX = "0x0";
-    private static final String ZERO = "0";
+    private static final byte[] EMPTY_BYTES = new byte[0];
+    private static final String PREFIX = "0x";
 
     private Hex() {
     }
@@ -25,16 +25,10 @@ public final class Hex {
      * @return a byte array containing decoded hexadecimal string
      */
     public static byte @NotNull [] toByteArray(@NotNull String hex) {
-        var offset = 0;
-        var length = hex.length();
-        if (length >= 2) {
-            val first = hex.charAt(0);
-            val second = hex.charAt(1);
-            if (first == '0' && (second == 'x' || second == 'X')) {
-                offset = 2;
-            }
+        if (hex.isEmpty() || hex.equalsIgnoreCase(PREFIX)) {
+            return EMPTY_BYTES;
         }
-        return FastHex.decode(hex, offset, length);
+        return FastHex.decode(hex);
     }
 
     /**
@@ -53,29 +47,11 @@ public final class Hex {
      *
      * @param value       the byte array value
      * @param prefix      if true, appends <code>0x</code> prefix to the resulting string
-     * @apiNote this method uses a deprecated {@link String} constructor to avoid unnecessary memory allocation
-     *  and to improve performance. This method is safe to use as long as the input is a valid hexadecimal string.
      * @return a hexadecimal representation of integer
      */
     @NotNull
-    @SuppressWarnings("deprecation")
     public static String toHex(byte @NotNull [] value, boolean prefix) {
-        if (value.length == 0) {
-            return prefix ? ZERO_WITH_PREFIX : ZERO;
-        }
-
-        // TODO: This could be faster if we moved to a custom implementation
-        //  which doesn't force us to deal with this intermediate array resizing
-        //  and copying. It's ok for now, but could be improved.
-        val hex = FastHex.encodeToBytes(value);
-        if (prefix) {
-            val prefixed = new byte[hex.length + 2];
-            prefixed[0] = '0';
-            prefixed[1] = 'x';
-            System.arraycopy(hex, 0, prefixed, 2, hex.length);
-            return new String(prefixed, 0, 0, prefixed.length);
-        }
-        return new String(hex, 0, 0, hex.length);
+        return prefix ? FastHex.encodeWithPrefix(value) : FastHex.encodeWithoutPrefix(value);
     }
 
     /**
@@ -86,7 +62,10 @@ public final class Hex {
      */
     @NotNull
     public static BigInteger toBigInteger(@NotNull String hex) {
-        return new BigInteger(toByteArray(hex));
+        val decoded = toByteArray(hex);
+        if (decoded.length == 0) {
+            return BigInteger.ZERO;
+        }
+        return new BigInteger(decoded);
     }
-
 }
