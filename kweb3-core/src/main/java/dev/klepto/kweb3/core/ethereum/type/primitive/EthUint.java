@@ -215,7 +215,7 @@ public class EthUint extends Number implements EthValue, EthNumericValue<EthUint
 
     @NotNull
     public static EthUint uint256(@NotNull String hex) {
-        return uint256(Hex.toBigInteger(hex));
+        return uint256(Hex.toUnsignedBigInteger(hex));
     }
 
     @NotNull

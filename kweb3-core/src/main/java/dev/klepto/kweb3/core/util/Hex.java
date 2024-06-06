@@ -55,17 +55,25 @@ public final class Hex {
     }
 
     /**
-     * Converts given hexadecimal string to {@link BigInteger}.
+     * Converts given hexadecimal string to an unsigned {@link BigInteger}.
      *
+     * @param hex the hexadecimal string
+     * @return a big integer value of hexadecimal string
+     */
+    @NotNull
+    public static BigInteger toUnsignedBigInteger(@NotNull String hex) {
+        val decoded = toByteArray(hex);
+        return decoded.length == 0 ? BigInteger.ZERO : new BigInteger(1, decoded);
+    }
+
+    /**
+     * Converts given hexadecimal string to a {@link BigInteger}.
      * @param hex the hexadecimal string
      * @return a big integer value of hexadecimal string
      */
     @NotNull
     public static BigInteger toBigInteger(@NotNull String hex) {
         val decoded = toByteArray(hex);
-        if (decoded.length == 0) {
-            return BigInteger.ZERO;
-        }
-        return new BigInteger(decoded);
+        return decoded.length == 0 ? BigInteger.ZERO : new BigInteger(decoded);
     }
 }
