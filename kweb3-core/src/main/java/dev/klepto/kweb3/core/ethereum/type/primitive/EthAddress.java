@@ -141,7 +141,7 @@ public class EthAddress implements EthValue, EthNumericValue<EthAddress> {
 
     @NotNull
     public static EthAddress address(@NotNull String hex) {
-        val address = Address.wrap(hex);
+        val address = Address.wrap(Address.toChecksumAddress(hex));
         return new EthAddress(address, address.toString());
     }
 
