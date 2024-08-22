@@ -2,6 +2,7 @@ package dev.klepto.kweb3.core.chain;
 
 import lombok.Builder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Describes a web3 chain/network.
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public record Web3Chain(@NotNull String name,
                         long chainId,
                         boolean testnet,
-                        @NotNull Currency currency) {
+                        @Nullable Currency currency) {
 
     /**
      * Returns a new builder with the same properties as this chain.
